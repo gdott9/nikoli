@@ -1,19 +1,13 @@
-doctype html
-html
-  head
-    title Nurikabe
-    meta charset="utf-8"
-    meta name="viewport" content="initial-scale=1.0, user-scalable=yes"
-    link rel="stylesheet" media="all" href="/application.css"
-    script type="text/javascript" src="/nurikabe.js"
-  body
-    h1 Nurikabe
-    #board
+- content_for(:title) { 'Nurikabe' }
 
-    javascript:
-      document.addEventListener("DOMContentLoaded", function() {
-        var game = JSON.parse("[[4,-1,-1,0,2],[0,-1,2,-1,-1],[0,-1,0,-1,3],[0,-1,-1,-1,0],[-1,-1,1,-1,0]]");
+h1 Nurikabe
+#board
 
-        nurikabe = new Nurikabe(document.getElementById('board'));
-        nurikabe.generate(game);
-      });
+script type="text/javascript" src="/nurikabe.js"
+javascript:
+  document.addEventListener("DOMContentLoaded", function() {
+    var game = JSON.parse("[[4,-1,-1,0,2],[0,-1,2,-1,-1],[0,-1,0,-1,3],[0,-1,-1,-1,0],[-1,-1,1,-1,0]]");
+
+    nurikabe = new Nurikabe(document.getElementById('board'));
+    nurikabe.generate(game);
+  });

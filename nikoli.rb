@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 
 require 'sinatra'
+require 'sinatra/content_for'
+
 require 'coffee-script'
 require 'slim'
 require 'sass'
