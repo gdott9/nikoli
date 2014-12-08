@@ -69,6 +69,12 @@ ul {
   background-color: #aaa;
 }
 
+.hitori {
+  .black {
+    opacity: 0.1;
+  }
+}
+
 .sudoku {
   $sudoku-separation: 5px;
 

@@ -7,7 +7,7 @@ require 'coffee-script'
 require 'slim'
 require 'sass'
 
-GAMES = %i{nurikabe sudoku}
+GAMES = %i{hitori nurikabe sudoku}
 
 get('/application.css') { scss :application }
 get('/application.js') { coffee :application }
