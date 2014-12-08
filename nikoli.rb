@@ -7,11 +7,13 @@ require 'coffee-script'
 require 'slim'
 require 'sass'
 
+GAMES = %i{nurikabe sudoku}
+
 get('/application.css') { scss :application }
 
-get('/') { slim :index }
+get('/') { slim :index, locals: {games: GAMES} }
 
-%i{nurikabe}.each do |game|
+GAMES.each do |game|
   get("/#{game}") { slim game }
   get("/#{game}.js") { coffee game }
 end
