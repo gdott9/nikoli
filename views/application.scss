@@ -68,3 +68,24 @@ ul {
 .black {
   background-color: #aaa;
 }
+
+.sudoku {
+  $sudoku-separation: 5px;
+
+  .grid-row:nth-child(3n) {
+    margin-bottom: $sudoku-separation;
+  }
+  .grid-cell:nth-child(3n) {
+    margin-right: $sudoku-separation;
+  }
+
+  input {
+    text-align: center;
+    width: 80%;
+    height: 80%;
+    border: none;
+    background: transparent;
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 1.2em;
+  }
+}
