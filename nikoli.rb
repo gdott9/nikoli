@@ -10,6 +10,7 @@ require 'sass'
 GAMES = %i{nurikabe sudoku}
 
 get('/application.css') { scss :application }
+get('/application.js') { coffee :application }
 
 get('/') { slim :index, locals: {games: GAMES} }
 
