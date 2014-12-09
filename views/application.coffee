@@ -76,6 +76,13 @@ class Nikoli.Cell
       new Cell(@x, @y - 1, @game)
     ]
 
+  isPool: ->
+    [
+      new Cell(@x, @y + 1, @game),
+      new Cell(@x + 1, @y, @game),
+      new Cell(@x + 1, @y + 1, @game),
+    ].every (cell) => cell.valid(@value)
+
   valid: (value) ->
     0 <= @x < @game.length && 0 <= @y < @game[@x].length &&
       (!value? || value < 0 && @game[@x][@y] < 0 || value >= 0 && @game[@x][@y] >= 0)

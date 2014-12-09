@@ -18,7 +18,9 @@ class Nikoli.Nurikabe extends Nikoli.Game
             black_stream.calculate(cell)
           else if !black_stream.include(cell)
             errors.push {row: i, column: j, message: 'The stream must be continuous'}
-          # TODO check for pools
+
+          if cell.isPool()
+            errors.push {row: i, column: j, message: 'There must be no pools.'}
         else if cell.value > 0
           if white_walls.some((wall) -> wall.include(cell))
             errors.push {row: i, column: j, message: 'Each wall must contain exactly one numbered cell.'}
