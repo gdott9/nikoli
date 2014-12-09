@@ -1,6 +1,6 @@
 class Nikoli.Hitori extends Nikoli.Game
-  constructor: (@board, @name = 'hitori') ->
-    super @board, @name
+  constructor: (@board, @name = 'hitori', @url = null) ->
+    super @board, @name, @url
 
   errors: ->
     solution = @toArray()

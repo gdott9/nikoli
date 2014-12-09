@@ -1,13 +1,17 @@
 window.Nikoli = Nikoli = {}
 
 class Nikoli.Game
-  constructor: (@board, @name) ->
+  constructor: (@board, @name, @url) ->
     @name = 'nikoli' unless @name?
+    @url = "/data/#{@name}" unless @url?
+
     @board.classList.add @name
 
     @grid = document.createElement 'div'
     @grid.classList.add 'game-container'
     @board.appendChild @grid
+
+    @getFiles()
 
     buttons_div = document.createElement 'div'
     buttons = {check: 'Check', reset: 'Reset', newgame: 'New game', help: '?'}
@@ -23,6 +27,7 @@ class Nikoli.Game
 
     @board.querySelector('.check').addEventListener('click', @check.bind(this))
     @board.querySelector('.reset').addEventListener('click', @reset.bind(this))
+    @board.querySelector('.newgame').addEventListener('click', @newgame.bind(this))
 
   check: ->
     errors = @errors()
@@ -31,6 +36,28 @@ class Nikoli.Game
       alert 'Congratulations!'
     else
       alert errors.map((el) -> el.message).join()
+
+  getFiles: ->
+    xmlhttp = new XMLHttpRequest()
+    xmlhttp.open("GET", "#{@url}.json")
+
+    xmlhttp.addEventListener('load', (evt) =>
+      @setFiles JSON.parse(evt.target.responseText))
+    xmlhttp.send()
+
+  setFiles: (files) ->
+    @files = files
+    @file = @files[0]
+
+    @newgame() unless @game?
+
+  newgame: ->
+    xmlhttp = new XMLHttpRequest()
+    xmlhttp.open("GET", "#{@url}/#{@file}.json")
+
+    xmlhttp.addEventListener('load', (evt) =>
+      @generate JSON.parse(evt.target.responseText))
+    xmlhttp.send()
 
   reset: ->
     @generate()

@@ -6,17 +6,5 @@ h1 Hitori
 script type="text/javascript" src="/hitori.js"
 javascript:
   document.addEventListener("DOMContentLoaded", function() {
-    var game = [
-      [4,5,6,8,3,7,8,1],
-      [1,1,1,4,8,6,7,2],
-      [5,4,7,6,3,1,2,8],
-      [7,4,5,3,2,8,1,6],
-      [2,2,2,7,1,4,4,4],
-      [8,7,4,5,5,2,6,3],
-      [6,7,8,5,5,4,3,2],
-      [3,3,3,2,4,6,1,7]
-    ];
-
     hitori = new Nikoli.Hitori(document.getElementById('board'));
-    hitori.generate(game);
   });

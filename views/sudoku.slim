@@ -7,11 +7,4 @@ script type="text/javascript" src="/sudoku.js"
 javascript:
   document.addEventListener("DOMContentLoaded", function() {
     sudoku = new Nikoli.Sudoku(document.getElementById('board'));
-
-    xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", "#{url('/data/sudoku/gnome-sudoku_easy.json')}");
-
-    xmlhttp.addEventListener('load', function(evt) {
-      sudoku.generate(JSON.parse(evt.target.responseText)) })
-    xmlhttp.send();
   });

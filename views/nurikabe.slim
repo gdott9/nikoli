@@ -7,11 +7,4 @@ script type="text/javascript" src="/nurikabe.js"
 javascript:
   document.addEventListener("DOMContentLoaded", function() {
     nurikabe = new Nikoli.Nurikabe(document.getElementById('board'));
-
-    xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET", "#{url('/data/nurikabe/5x5.json')}");
-
-    xmlhttp.addEventListener('load', function(evt) {
-      nurikabe.generate(JSON.parse(evt.target.responseText)) })
-    xmlhttp.send();
   });
