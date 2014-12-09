@@ -27,7 +27,8 @@ get "/data/:game.json" do |game|
   data_file = Pathname.new(File.join(settings.data_folder, game))
   halt(404) unless data_file.directory?
 
-  json data_file.children(false).map { |path| path.to_s.sub(/.yml$/, '') }
+  json data_file.children(false).select { |path| path.to_s.end_with?('.yml') }
+    .map { |path| path.to_s.sub(/.yml$/, '') }
 end
 
 get "/data/:game/:file.json" do |game, file|
