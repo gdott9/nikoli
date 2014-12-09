@@ -1,33 +1,6 @@
-window.Sudoku = class Sudoku
-  constructor: (@board) ->
-    @board.classList.add 'sudoku'
-
-    @grid = document.createElement 'div'
-    @grid.classList.add 'game-container'
-    @board.appendChild @grid
-
-    buttons_div = document.createElement 'div'
-    buttons = {check: 'Check', reset: 'Reset', newgame: 'New game', help: '?'}
-
-    for k,v of buttons
-      button = document.createElement 'button'
-      button.innerHTML = v
-      button.classList.add k
-
-      buttons_div.appendChild button
-
-    @board.appendChild buttons_div
-
-    @board.querySelector('.check').addEventListener('click', @check.bind(this))
-    @board.querySelector('.reset').addEventListener('click', @reset.bind(this))
-
-  check: ->
-    errors = @errors()
-
-    if errors.length == 0
-      alert 'Congratulations!'
-    else
-      alert errors.map((el) -> el.message).join()
+class Nikoli.Sudoku extends Nikoli.Game
+  constructor: (@board, @name = 'sudoku') ->
+    super @board, @name
 
   errors: ->
     solution = @toArray()
@@ -64,9 +37,6 @@ window.Sudoku = class Sudoku
     ).join('')
 
     return
-
-  reset: ->
-    @generate()
 
   toggle: (cell) ->
     if cell.classList.contains 'black'

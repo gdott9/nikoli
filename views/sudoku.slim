@@ -6,7 +6,7 @@ h1 Sudoku
 script type="text/javascript" src="/sudoku.js"
 javascript:
   document.addEventListener("DOMContentLoaded", function() {
-    sudoku = new Sudoku(document.getElementById('board'));
+    sudoku = new Nikoli.Sudoku(document.getElementById('board'));
 
     xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", "#{url('/data/sudoku/gnome-sudoku_easy.json')}");
