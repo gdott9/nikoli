@@ -23,9 +23,16 @@ GAMES.each do |game|
   get("/#{game}.js") { coffee game }
 end
 
+get "/data/:game.json" do |game|
+  data_file = Pathname.new(File.join(settings.data_folder, game))
+  halt(404) unless data_file.directory?
+
+  json data_file.children(false).map { |path| path.to_s.sub(/.yml$/, '') }
+end
+
 get "/data/:game/:file.json" do |game, file|
-  data_file = File.join(settings.data_folder, game, "#{file}.yml")
+  data_file = File.expand_path(File.join(settings.data_folder, game, "#{file}.yml"))
   halt(404) unless File.exist?(data_file)
 
-  json YAML.load_file(data_file).sample
+  json YAML.load_file(data_file)['data'].sample
 end
