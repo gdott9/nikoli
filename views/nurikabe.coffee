@@ -5,28 +5,28 @@ class Nikoli.Nurikabe extends Nikoli.Game
   errors: ->
     solution = @toArray()
     errors = []
-    processed_cells = []
     black_stream = new Nikoli.Stream(solution)
     white_walls = []
 
     for i in [0...solution.length]
       row = solution[i]
       for j in [0...row.length]
-        cell = solution[i][j]
+        cell = new Nikoli.Cell(i, j, solution)
 
-        if cell < 0
+        if cell.value < 0
           if black_stream.empty()
-            black_stream.calculate({x: i, y: j})
-          else if !black_stream.include({x: i, y: j})
+            black_stream.calculate(cell)
+          else if !black_stream.include(cell)
             errors.push {row: i, column: j, message: 'The stream must be continuous'}
-        else if cell > 0
-          if white_walls.some((wall) -> wall.include({x: i, y: j}))
+          # TODO check for pools
+        else if cell.value > 0
+          if white_walls.some((wall) -> wall.include(cell))
             errors.push {row: i, column: j, message: 'Each wall must contain exactly one numbered cell.'}
           else
             wall = new Nikoli.Stream(solution)
-            wall.calculate({x: i, y: j})
+            wall.calculate(cell)
 
-            if wall.length() != cell
+            if wall.length() != cell.value
               errors.push {row: i, column: j, message: 'Each numbered cell is a wall cell, the number in it is the number of cells in that wall.'}
 
             white_walls.push(wall)

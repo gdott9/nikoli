@@ -11,23 +11,16 @@ class Nikoli.Hitori extends Nikoli.Game
     for i in [0...solution.length]
       row = solution[i]
       for j in [0...row.length]
-        cell = solution[i][j]
+        cell = new Nikoli.Cell(i, j, solution)
 
-        if cell >= 0
-          white_stream.calculate({x: i, y: j}) if white_stream.empty()
+        if cell.value >= 0
+          white_stream.calculate(cell) if white_stream.empty()
 
-          if !white_stream.include({x: i, y: j})
+          if !white_stream.include(cell)
             errors.push {row: i, column: j, message: 'The stream must be continuous'}
           # TODO check for duplicates in rows and columns
         else
-          adjacent_cells = [
-            {x: i+1, y: j},
-            {x: i-1, y: j},
-            {x: i, y: j+1},
-            {x: i, y: j-1}
-          ]
-          if adjacent_cells.some((el) ->
-            0 <= el.x < solution.length && 0 <= el.y < solution[el.x].length && solution[el.x][el.y] == -1)
+          if cell.adjacentCells().some((adj_cell) -> adj_cell.valid(-1))
             errors.push {row: i, column: j, message: 'Adjacent filled-in cells'}
 
     errors
