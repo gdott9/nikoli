@@ -87,6 +87,18 @@ class Nikoli.Cell
     0 <= @x < @game.length && 0 <= @y < @game[@x].length &&
       (!value? || value < 0 && @game[@x][@y] < 0 || value >= 0 && @game[@x][@y] >= 0)
 
+  duplicatesIn: (array) ->
+    array.filter((cell) => cell == @value).length > 1
+
+  columnDuplicates: ->
+    column = []
+    column.push @game[i][@y] for i in [0...@game.length]
+
+    @duplicatesIn column
+
+  rowDuplicates: ->
+    @duplicatesIn @game[@x]
+
 class Nikoli.Stream
   constructor: (@game) ->
     @cells = []

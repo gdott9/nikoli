@@ -18,7 +18,9 @@ class Nikoli.Hitori extends Nikoli.Game
 
           if !white_stream.include(cell)
             errors.push {row: i, column: j, message: 'The stream must be continuous'}
-          # TODO check for duplicates in rows and columns
+
+          if cell.rowDuplicates() || cell.columnDuplicates()
+            errors.push {row: i, column: j, message: 'The number appears more than once in the row or column.'}
         else
           if cell.adjacentCells().some((adj_cell) -> adj_cell.valid(-1))
             errors.push {row: i, column: j, message: 'Adjacent filled-in cells'}
