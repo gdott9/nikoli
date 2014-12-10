@@ -6,22 +6,15 @@ class Nikoli.Sudoku extends Nikoli.Game
     solution = @toArray()
     errors = []
 
-    for i in [0..8]
-      square = []
-      column = []
+    for i in [0...solution.length]
       row = solution[i]
+      for j in [0...row.length]
+        cell = new Nikoli.Cell(i, j, solution)
 
-      for j in [0..8]
-        column.push(solution[j][i])
-        square.push(solution[(Math.floor(i/3)*3) + Math.floor(j/3)][(i%3*3) + (j%3)])
-
-      console.log square
-      console.log column
-      ###
-      # check square [i%3*3][j/3*3]
-      # check row [i][.]
-      # check column [.][i]
-      ###
+        if cell.value == 0
+          errors.push {row: i, column: j, message: 'The cell has no value.'}
+        else if cell.rowDuplicates() || cell.columnDuplicates() || cell.squareDuplicates({x: Math.floor(i/3)*3, y: Math.floor(j/3)*3}, 3)
+          errors.push {row: i, column: j, message: 'The number appears more than once in the row, column or square.'}
 
     errors
 
@@ -47,10 +40,14 @@ class Nikoli.Sudoku extends Nikoli.Game
     else
       cell.classList.add 'black'
 
-  toArray: ->
+  toArray: (solution = false) ->
     [].map.call @grid.querySelectorAll('.grid-row'), (row) ->
       [].map.call row.querySelectorAll('.grid-cell'), (cell) ->
         if cell.classList.contains('empty')
-          -parseInt(cell.querySelector('input').value)
+          value = parseInt(cell.querySelector('input').value)
+          if isNaN(value)
+            0
+          else
+            if solution then -value else value
         else
           parseInt(cell.innerHTML)

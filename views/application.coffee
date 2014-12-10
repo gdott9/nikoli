@@ -99,6 +99,14 @@ class Nikoli.Cell
   rowDuplicates: ->
     @duplicatesIn @game[@x]
 
+  squareDuplicates: (from, size) ->
+    square = []
+    for i in [from.x...(from.x + size)]
+      for j in [from.y...(from.y + size)]
+        square.push @game[i][j]
+
+    @duplicatesIn square
+
 class Nikoli.Stream
   constructor: (@game) ->
     @cells = []
