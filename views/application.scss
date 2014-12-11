@@ -62,6 +62,20 @@ ul {
   font-size: 1.2em;
 }
 
+.congratulations {
+  background-color: #4a4;
+  color: #060;
+  font-weight: bold;
+  padding: 20px 0;
+  margin: 10px 0;
+  border-radius: 3px;
+  display: none;
+}
+
+.show {
+  display: block;
+}
+
 .white {
   background-color: #fff;
 }
@@ -79,8 +93,12 @@ ul {
 }
 
 .akari {
-  .black {
+  .white {
     background-color: #222;
+    color: #fff;
+  }
+  .black {
+    background-color: #fff;
   }
   .light {
     box-shadow: 0 0 10px 5px #ffb inset;

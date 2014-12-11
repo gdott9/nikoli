@@ -29,11 +29,17 @@ class Nikoli.Game
     @board.querySelector('.reset').addEventListener('click', @reset.bind(this))
     @board.querySelector('.newgame').addEventListener('click', @newgame.bind(this))
 
+    congratulations = document.createElement 'div'
+    congratulations.innerHTML = 'Congratulations!'
+    congratulations.classList.add 'congratulations'
+    congratulations.classList.add 'hide'
+    @board.appendChild congratulations
+
   check: ->
     errors = @errors()
 
     if errors.length == 0
-      alert 'Congratulations!'
+      @board.querySelector('.congratulations').classList.add('show')
     else
       alert errors.map((el) -> el.message).join()
 
@@ -52,6 +58,8 @@ class Nikoli.Game
     @newgame() unless @game?
 
   newgame: ->
+    @board.querySelector('.congratulations').classList.remove('show')
+
     xmlhttp = new XMLHttpRequest()
     xmlhttp.open("GET", "#{@url}/#{@file}.json")
 
