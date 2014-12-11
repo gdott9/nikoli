@@ -68,6 +68,13 @@ class Nikoli.Cell
 
   toString: -> "#{@x};#{@y}"
 
+  getColumn: ->
+    column = []
+    column.push @game[i][@y] for i in [0...@game.length]
+    column
+
+  getRow: -> @game[@x]
+
   adjacentCells: ->
     [
       new Cell(@x + 1, @y, @game),
@@ -91,13 +98,10 @@ class Nikoli.Cell
     array.filter((cell) => cell == @value).length > 1
 
   columnDuplicates: ->
-    column = []
-    column.push @game[i][@y] for i in [0...@game.length]
-
-    @duplicatesIn column
+    @duplicatesIn @getColumn()
 
   rowDuplicates: ->
-    @duplicatesIn @game[@x]
+    @duplicatesIn @getRow()
 
   squareDuplicates: (from, size) ->
     square = []

@@ -9,7 +9,7 @@ require 'coffee-script'
 require 'slim'
 require 'sass'
 
-GAMES = %i{hitori nurikabe sudoku}
+GAMES = %i{akari hitori nurikabe sudoku}
 
 set :data_folder, File.expand_path('./data')
 

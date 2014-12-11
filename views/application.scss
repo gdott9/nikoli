@@ -66,12 +66,24 @@ ul {
   background-color: #fff;
 }
 .black {
-  background-color: #aaa;
+  background-color: transparent;
+}
+.error {
+  box-shadow: 0 0 10px 0 #c00 inset;
 }
 
 .hitori {
   .black {
     opacity: 0.1;
+  }
+}
+
+.akari {
+  .black {
+    background-color: #222;
+  }
+  .light {
+    box-shadow: 0 0 10px 5px #ffb inset;
   }
 }
 

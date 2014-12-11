@@ -1,0 +1,10 @@
+- content_for(:title) { 'Akari' }
+
+h1 Akari
+#board
+
+script type="text/javascript" src="/akari.js"
+javascript:
+  document.addEventListener("DOMContentLoaded", function() {
+    akari = new Nikoli.Akari(document.getElementById('board'));
+  });
