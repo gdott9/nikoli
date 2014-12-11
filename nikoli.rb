@@ -35,5 +35,6 @@ get "/data/:game/:file.json" do |game, file|
   data_file = File.expand_path(File.join(settings.data_folder, game, "#{file}.yml"))
   halt(404) unless File.exist?(data_file)
 
-  json YAML.load_file(data_file)['data'].sample
+  data = YAML.load_file(data_file)['data']
+  json Array(data).sample
 end
