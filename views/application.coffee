@@ -35,16 +35,40 @@ class Nikoli.Game
     congratulations.classList.add 'hide'
     @board.appendChild congratulations
 
+    errors = document.createElement 'ul'
+    errors.classList.add 'errors'
+    errors.classList.add 'hide'
+    @board.appendChild errors
+
   check: ->
     errors = @errors()
 
     if errors.length == 0
+      [].forEach.call @board.querySelectorAll('.error'), (cell) ->
+        cell.classList.remove 'error'
+      @board.querySelector('.errors').classList.remove('show')
       @board.querySelector('.congratulations').classList.add('show')
     else
-      alert errors.map((el) -> el.message).join()
+      errors_elem = @board.querySelector('.errors')
+      errors_elem.innerHTML = ''
+
+      errors.forEach (error) =>
+        error_cell = @board.querySelector("[data-row=\"#{error.row}\"][data-column=\"#{error.column}\"]")
+        error_cell.classList.add 'error'
+
+        li = document.createElement('li')
+        li.innerHTML = error.message
+
+        errors_elem.appendChild li
+
+      @board.querySelector('.congratulations').classList.remove('show')
+      errors_elem.classList.add('show')
 
   generate: (game, solution = false, cell_class = Nikoli.Cell) ->
     @game = game if game?
+
+    @board.querySelector('.congratulations').classList.remove('show')
+    @board.querySelector('.errors').classList.remove('show')
 
     @grid.innerHTML = ''
     @game.forEach((row, i) =>
@@ -71,8 +95,6 @@ class Nikoli.Game
     @newgame() unless @game?
 
   newgame: ->
-    @board.querySelector('.congratulations').classList.remove('show')
-
     xmlhttp = new XMLHttpRequest()
     xmlhttp.open("GET", "#{@url}/#{@file}.json")
 

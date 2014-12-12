@@ -62,14 +62,20 @@ ul {
   font-size: 1.2em;
 }
 
-.congratulations {
-  background-color: #4a4;
-  color: #060;
+.congratulations, .errors {
   font-weight: bold;
   padding: 20px 0;
   margin: 10px 0;
   border-radius: 3px;
   display: none;
+}
+.congratulations {
+  background-color: #4a4;
+  color: #060;
+}
+.errors {
+  background-color: #a44;
+  color: #600;
 }
 
 .show {
