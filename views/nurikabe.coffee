@@ -11,7 +11,7 @@ class Nikoli.Nurikabe extends Nikoli.Game
     for i in [0...solution.length]
       row = solution[i]
       for j in [0...row.length]
-        cell = new Nikoli.Cell(i, j, solution)
+        cell = new Nikoli.NurikabeCell(i, j, solution)
 
         if cell.value < 0
           if black_stream.empty()
@@ -36,16 +36,7 @@ class Nikoli.Nurikabe extends Nikoli.Game
     errors
 
   generate: (game, solution = false) ->
-    @game = game if game?
-    @grid.innerHTML = @game.map((row) ->
-      '<div class="grid-row">' + row.map((cell) ->
-        if cell <= 0
-          color_class = 'black' if solution && cell == -1
-          "<div class=\"grid-cell empty #{color_class}\">&nbsp;</div>"
-        else
-          "<div class=\"grid-cell white\">#{cell}</div>"
-      ).join('') + '</div>'
-    ).join('')
+    super game, solution, Nikoli.NurikabeCell
 
     for cell in board.querySelectorAll('.empty')
       cell.addEventListener 'click', ((evenment) => @toggle evenment.target), false
@@ -71,3 +62,24 @@ class Nikoli.Nurikabe extends Nikoli.Game
             0
         else
           parseInt(cell.innerHTML)
+
+class Nikoli.NurikabeCell extends Nikoli.Cell
+  create: (value, solution = false) ->
+    cell = super
+
+    if value <= 0
+      cell.classList.add 'empty'
+      cell.classList.add 'black' if solution && value == -1
+    else
+      cell.classList.add 'white'
+      cell.innerHTML = value
+
+    cell
+
+  isPool: ->
+    [
+      new NurikabeCell(@x, @y + 1, @game),
+      new NurikabeCell(@x + 1, @y, @game),
+      new NurikabeCell(@x + 1, @y + 1, @game),
+    ].every (cell) => cell.valid(@value)
+

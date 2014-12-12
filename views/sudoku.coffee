@@ -9,7 +9,7 @@ class Nikoli.Sudoku extends Nikoli.Game
     for i in [0...solution.length]
       row = solution[i]
       for j in [0...row.length]
-        cell = new Nikoli.Cell(i, j, solution)
+        cell = new Nikoli.SudokuCell(i, j, solution)
 
         if cell.value == 0
           errors.push {row: i, column: j, message: 'The cell has no value.'}
@@ -19,17 +19,7 @@ class Nikoli.Sudoku extends Nikoli.Game
     errors
 
   generate: (game, solution = false) ->
-    @game = game if game?
-    @grid.innerHTML = @game.map((row) ->
-      '<div class="grid-row">' + row.map((cell) ->
-        if cell <= 0
-          "<div class=\"grid-cell empty\"><input type=\"text\" #{if cell < 0 then "value=\"#{Math.abs(cell)}\""} /></div>"
-        else
-          "<div class=\"grid-cell white\">#{cell}</div>"
-      ).join('') + '</div>'
-    ).join('')
-
-    return
+    super game, solution, Nikoli.SudokuCell
 
   toggle: (cell) ->
     if cell.classList.contains 'black'
@@ -51,3 +41,15 @@ class Nikoli.Sudoku extends Nikoli.Game
             if solution then -value else value
         else
           parseInt(cell.innerHTML)
+
+class Nikoli.SudokuCell extends Nikoli.Cell
+  create: (value) ->
+    cell = super
+    if value <= 0
+      cell.classList.add 'empty'
+      cell.innerHTML = "<input type=\"text\" #{if value < 0 then "value=\"#{Math.abs(value)}\"" else ''} />"
+    else
+      cell.classList.add 'white'
+      cell.innerHTML = value
+
+    cell

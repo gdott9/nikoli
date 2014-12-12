@@ -9,7 +9,7 @@ class Nikoli.Akari extends Nikoli.Game
     for i in [0...solution.length]
       row = solution[i]
       for j in [0...row.length]
-        cell = new Nikoli.Cell(i, j, solution)
+        cell = new Nikoli.AkariCell(i, j, solution)
 
         if cell.value == -5
           errors.push {row: i, column: j, message: 'The light is illuminated by another one'}
@@ -23,23 +23,7 @@ class Nikoli.Akari extends Nikoli.Game
     errors
 
   generate: (game, solution = false) ->
-    @game = game if game?
-    @grid.innerHTML = @game.map((row, i) ->
-      '<div class="grid-row">' + row.map((cell, j) ->
-        data = "data-row=\"#{i}\" data-column=\"#{j}\""
-        if cell <= -2
-          if solution
-            color_class = if cell == -3
-              'black'
-            else if cell == -4
-              'light'
-            else if cell == -5
-              'black light'
-          "<div class=\"grid-cell empty #{color_class}\" #{data}>&nbsp;</div>"
-        else
-          "<div class=\"grid-cell white\" #{data}>#{if cell >= 0 then cell else '&nbsp;'}</div>"
-      ).join('') + '</div>'
-    ).join('')
+    super game, solution, Nikoli.AkariCell
 
     for cell in board.querySelectorAll('.empty')
       cell.addEventListener 'click', ((evenment) => @toggle evenment.target), false
@@ -79,6 +63,26 @@ class Nikoli.Akari extends Nikoli.Game
           if isNaN(value) then -1 else value
 
 class Nikoli.AkariCell extends Nikoli.Cell
+  create: (value, solution = false) ->
+    cell = super
+
+    if value >= -1
+      cell.classList.add 'white'
+      cell.innerHTML = value if value >= 0
+    else
+      cell.classList.add 'empty'
+
+      if solution
+        if value == -3
+          cell.classList.add 'black'
+        else if value == -4
+          cell.classList.add 'light'
+        else if value == -5
+          cell.classList.add 'black'
+          cell.classList.add 'light'
+
+    cell
+
   isIlluminated: ->
     @lightLeft() || @lightRight() || @lightUp() || @lightDown()
 

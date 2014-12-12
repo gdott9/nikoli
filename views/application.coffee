@@ -43,6 +43,19 @@ class Nikoli.Game
     else
       alert errors.map((el) -> el.message).join()
 
+  generate: (game, solution = false, cell_class = Nikoli.Cell) ->
+    @game = game if game?
+
+    @grid.innerHTML = ''
+    @game.forEach((row, i) =>
+      row_elem = new Nikoli.Row().create()
+      row.forEach((cell, j) ->
+        row_elem.appendChild new cell_class(i, j).create(cell))
+
+      @grid.appendChild row_elem)
+
+    return
+
   getFiles: ->
     xmlhttp = new XMLHttpRequest()
     xmlhttp.open("GET", "#{@url}.json")
@@ -70,9 +83,27 @@ class Nikoli.Game
   reset: ->
     @generate()
 
+class Nikoli.Row
+  create: ->
+    row = document.createElement 'div'
+    row.classList.add 'grid-row'
+
+    row
+
 class Nikoli.Cell
   constructor: (@x, @y, @game) ->
-    @value = @game[@x][@y] if @valid()
+    @value = @game[@x][@y] if @game? && @valid()
+
+  create: (value) ->
+    cell = document.createElement 'div'
+    cell.dataset.row = @x
+    cell.dataset.column = @y
+
+    cell.classList.add 'grid-cell'
+
+    cell.innerHTML = '&nbsp;'
+
+    cell
 
   toString: -> "#{@x};#{@y}"
 
@@ -90,13 +121,6 @@ class Nikoli.Cell
       new Cell(@x, @y + 1, @game),
       new Cell(@x, @y - 1, @game)
     ]
-
-  isPool: ->
-    [
-      new Cell(@x, @y + 1, @game),
-      new Cell(@x + 1, @y, @game),
-      new Cell(@x + 1, @y + 1, @game),
-    ].every (cell) => cell.valid(@value)
 
   valid: (value) ->
     0 <= @x < @game.length && 0 <= @y < @game[@x].length &&

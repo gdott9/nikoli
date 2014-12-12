@@ -11,7 +11,7 @@ class Nikoli.Hitori extends Nikoli.Game
     for i in [0...solution.length]
       row = solution[i]
       for j in [0...row.length]
-        cell = new Nikoli.Cell(i, j, solution)
+        cell = new Nikoli.HitoriCell(i, j, solution)
 
         if cell.value >= 0
           white_stream.calculate(cell) if white_stream.empty()
@@ -28,12 +28,7 @@ class Nikoli.Hitori extends Nikoli.Game
     errors
 
   generate: (game, solution = false) ->
-    @game = game if game?
-    @grid.innerHTML = @game.map((row) ->
-      '<div class="grid-row">' + row.map((cell) ->
-        "<div class=\"grid-cell\">#{cell}</div>"
-      ).join('') + '</div>'
-    ).join('')
+    super game, solution, Nikoli.HitoriCell
 
     for cell in board.querySelectorAll('.grid-cell')
       cell.addEventListener 'click', ((evenment) => @toggle evenment.target), false
@@ -56,3 +51,10 @@ class Nikoli.Hitori extends Nikoli.Game
           -1
         else
           parseInt(cell.innerHTML)
+
+class Nikoli.HitoriCell extends Nikoli.Cell
+  create: (value) ->
+    cell = super
+    cell.innerHTML = value
+
+    cell
