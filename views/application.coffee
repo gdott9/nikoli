@@ -115,11 +115,12 @@ class Nikoli.Cell
   getRow: -> @game[@x]
 
   adjacentCells: ->
+    constructor = Object.getPrototypeOf(this).constructor
     [
-      new Cell(@x + 1, @y, @game),
-      new Cell(@x - 1, @y, @game),
-      new Cell(@x, @y + 1, @game),
-      new Cell(@x, @y - 1, @game)
+      new constructor(@x + 1, @y, @game),
+      new constructor(@x - 1, @y, @game),
+      new constructor(@x, @y + 1, @game),
+      new constructor(@x, @y - 1, @game)
     ]
 
   valid: (value) ->
