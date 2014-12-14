@@ -96,13 +96,13 @@ class Nikoli.AkariCell extends Nikoli.Cell
     return false
 
   lightLeft: ->
-    @y != 0 && @light(@getRow().slice(0, @y).reverse())
+    @column != 0 && @light(@getRow().slice(0, @column).reverse())
 
   lightRight: ->
-    @y != (@getRow().length - 1) && @light(@getRow().slice(@y + 1))
+    @column != (@getRow().length - 1) && @light(@getRow().slice(@column + 1))
 
   lightUp: ->
-    @x != 0 && @light(@getColumn().slice(0, @x).reverse())
+    @row != 0 && @light(@getColumn().slice(0, @row).reverse())
 
   lightDown: ->
-    @x !=  (@getColumn().length - 1) && @light(@getColumn().slice(@x + 1))
+    @row !=  (@getColumn().length - 1) && @light(@getColumn().slice(@row + 1))

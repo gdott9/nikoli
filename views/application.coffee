@@ -113,13 +113,13 @@ class Nikoli.Row
     row
 
 class Nikoli.Cell
-  constructor: (@x, @y, @game) ->
-    @value = @game[@x][@y] if @game? && @valid()
+  constructor: (@row, @column, @game) ->
+    @value = @game[@row][@column] if @game? && @valid()
 
   create: (value) ->
     cell = document.createElement 'div'
-    cell.dataset.row = @x
-    cell.dataset.column = @y
+    cell.dataset.row = @row
+    cell.dataset.column = @column
 
     cell.classList.add 'grid-cell'
 
@@ -127,27 +127,27 @@ class Nikoli.Cell
 
     cell
 
-  toString: -> "#{@x};#{@y}"
+  toString: -> "#{@row};#{@column}"
 
   getColumn: ->
     column = []
-    column.push @game[i][@y] for i in [0...@game.length]
+    column.push @game[i][@column] for i in [0...@game.length]
     column
 
-  getRow: -> @game[@x]
+  getRow: -> @game[@row]
 
   adjacentCells: ->
     constructor = Object.getPrototypeOf(this).constructor
     [
-      new constructor(@x + 1, @y, @game),
-      new constructor(@x - 1, @y, @game),
-      new constructor(@x, @y + 1, @game),
-      new constructor(@x, @y - 1, @game)
+      new constructor(@row + 1, @column, @game),
+      new constructor(@row - 1, @column, @game),
+      new constructor(@row, @column + 1, @game),
+      new constructor(@row, @column - 1, @game)
     ]
 
   valid: (value) ->
-    0 <= @x < @game.length && 0 <= @y < @game[@x].length &&
-      (!value? || value < 0 && @game[@x][@y] < 0 || value >= 0 && @game[@x][@y] >= 0)
+    0 <= @row < @game.length && 0 <= @column < @game[@row].length &&
+      (!value? || value < 0 && @game[@row][@column] < 0 || value >= 0 && @game[@row][@column] >= 0)
 
   duplicatesIn: (array) ->
     array.filter((cell) => cell == @value).length > 1
@@ -160,8 +160,8 @@ class Nikoli.Cell
 
   squareDuplicates: (from, size) ->
     square = []
-    for i in [from.x...(from.x + size)]
-      for j in [from.y...(from.y + size)]
+    for i in [from.row...(from.row + size)]
+      for j in [from.column...(from.column + size)]
         square.push @game[i][j]
 
     @duplicatesIn square

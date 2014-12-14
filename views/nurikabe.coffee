@@ -78,8 +78,8 @@ class Nikoli.NurikabeCell extends Nikoli.Cell
 
   isPool: ->
     [
-      new NurikabeCell(@x, @y + 1, @game),
-      new NurikabeCell(@x + 1, @y, @game),
-      new NurikabeCell(@x + 1, @y + 1, @game),
+      new NurikabeCell(@row, @column + 1, @game),
+      new NurikabeCell(@row + 1, @column, @game),
+      new NurikabeCell(@row + 1, @column + 1, @game),
     ].every (cell) => cell.valid(@value)
 
