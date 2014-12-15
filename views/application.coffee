@@ -23,6 +23,14 @@ class Nikoli.Game
 
       buttons_div.appendChild button
 
+    files_select = document.createElement 'select'
+    files_select.classList.add 'files'
+    files_select.addEventListener('change', (evt) =>
+      @file = evt.target.value
+      @newgame())
+
+    buttons_div.appendChild files_select
+
     @board.appendChild buttons_div
 
     @board.querySelector('.check').addEventListener('click', @check.bind(this))
@@ -91,6 +99,15 @@ class Nikoli.Game
   setFiles: (files) ->
     @files = files
     @file = @files[0]
+
+    select = @board.querySelector('select')
+    select.innerHTML = ''
+    @files.forEach((file) ->
+      option = document.createElement('option')
+      option.text = file
+      select.appendChild option
+    )
+
 
     @newgame() unless @game?
 
