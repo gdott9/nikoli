@@ -1,0 +1,2 @@
+require './nikoli'
+run Nikoli
